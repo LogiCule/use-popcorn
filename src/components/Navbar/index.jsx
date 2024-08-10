@@ -1,15 +1,13 @@
+import PropTypes from "prop-types";
 import Logo from "../Logo";
-import Search from "../Search";
-import SearchResults from "../SearchResults";
 
-const Navbar = () => {
+const Navbar = ({ children }) => {
   return (
     <nav className="nav-bar">
       <Logo />
-      <Search />
-      <SearchResults />
+      {children}
     </nav>
   );
 };
-
+Navbar.propTypes = { children: PropTypes.node };
 export default Navbar;
