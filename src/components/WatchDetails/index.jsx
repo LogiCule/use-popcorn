@@ -28,9 +28,9 @@ WatchDetails.propTypes = {
     Poster: PropTypes.string,
     Title: PropTypes.string,
     Year: PropTypes.string,
-    imdbRating: PropTypes.string,
-    userRating: PropTypes.string,
-    runtime: PropTypes.string,
+    imdbRating: PropTypes.number,
+    userRating: PropTypes.number,
+    runtime: PropTypes.number,
   }),
 };
 

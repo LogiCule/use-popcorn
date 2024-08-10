@@ -2,6 +2,7 @@
 import { useEffect, useState } from "react";
 import MovieSummary from "../MovieSummary";
 import WatchedList from "../WatchedList";
+import Box from "../Box";
 const tempWatchedData = [
   {
     imdbID: "tt1375666",
@@ -26,25 +27,19 @@ const tempWatchedData = [
 ];
 const WatchedBox = () => {
   const [watched, setWatched] = useState([]);
-  const [isOpen, setIsOpen] = useState(true);
 
   useEffect(() => {
     setWatched(tempWatchedData);
   }, []);
 
   return (
-    <div className="box">
-      <button className="btn-toggle" onClick={() => setIsOpen((open) => !open)}>
-        {isOpen ? "–" : "+"}
-      </button>
-      {isOpen && (
-        <>
-          <MovieSummary watched={watched} />
+    <Box>
+      <>
+        <MovieSummary watched={watched} />
 
-          <WatchedList watched={watched} />
-        </>
-      )}
-    </div>
+        <WatchedList watched={watched} />
+      </>
+    </Box>
   );
 };
 

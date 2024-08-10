@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import MovieList from "../MovieList";
+import Box from "../Box";
 
 const tempMovieData = [
   {
@@ -26,18 +27,14 @@ const tempMovieData = [
 ];
 
 const ListBox = () => {
-  const [isOpen, setIsOpen] = useState(true);
   const [movies, setMovies] = useState([]);
   useEffect(() => {
     setMovies(tempMovieData);
   }, []);
   return (
-    <div className="box">
-      <button className="btn-toggle" onClick={() => setIsOpen((open) => !open)}>
-        {isOpen ? "–" : "+"}
-      </button>
-      {isOpen && <MovieList movies={movies} />}
-    </div>
+    <Box>
+      <MovieList movies={movies} />
+    </Box>
   );
 };
 
