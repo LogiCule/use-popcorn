@@ -1,15 +1,15 @@
-import { useState } from "react";
+// import { useState } from "react";
 import PropTypes from "prop-types";
 
 const Box = ({ children }) => {
-  const [isOpen, setIsOpen] = useState(true);
+  // const [isOpen, setIsOpen] = useState(true);
 
   return (
     <div className="box">
-      <button className="btn-toggle" onClick={() => setIsOpen((open) => !open)}>
+      {/* <button className="btn-toggle" onClick={() => setIsOpen((open) => !open)}>
         {isOpen ? "–" : "+"}
-      </button>
-      {isOpen && children}
+      </button> */}
+      {children}
     </div>
   );
 };
