@@ -3,6 +3,8 @@ import useDebounce from "./useDebounce";
 
 export const useMovies = (query) => {
   const [movies, setMovies] = useState([]);
+  const [isError, setIsError] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const baseURL = `http://www.omdbapi.com/?apikey=${
     import.meta.env.VITE_API_KEY
   }`;
@@ -11,14 +13,23 @@ export const useMovies = (query) => {
 
   useEffect(() => {
     async function getMovies() {
-      console.log({ getMovies: "in here" });
-      const res = await fetch(`${baseURL}&s=${searchTerm}`);
-      const data = await res.json();
-      if (data.Search) setMovies(data.Search);
-      //   setMovies(data.Search.movies);
+      try {
+        setIsLoading(true);
+        const res = await fetch(`${baseURL}&s=${searchTerm}`);
+        console.log({ res });
+        if (!res.ok)
+          throw new Error("Something went wrong with fetching movies");
+        const data = await res.json();
+        setIsLoading(false);
+        setIsError(false);
+        if (data.Search) setMovies(data.Search);
+      } catch (err) {
+        setIsError(err.message);
+        console.error({ err: err.message });
+      }
     }
     if (searchTerm !== "") getMovies();
   }, [baseURL, searchTerm]);
 
-  return { movies };
+  return { movies, isLoading, isError };
 };

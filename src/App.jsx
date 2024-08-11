@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import {
   Box,
+  Error,
+  Loader,
   MovieList,
   MovieSummary,
   Navbar,
@@ -36,7 +38,7 @@ export default function App() {
   const [watched, setWatched] = useState([]);
   const [query, setQuery] = useState("Deadpool");
 
-  const { movies } = useMovies(query);
+  const { movies, isLoading, isError } = useMovies(query);
   useEffect(() => {
     setWatched(tempWatchedData);
   }, []);
@@ -49,7 +51,13 @@ export default function App() {
       </Navbar>
       <main className="main">
         <Box>
-          <MovieList movies={movies} />
+          {isError ? (
+            <Error message={isError} />
+          ) : isLoading ? (
+            <Loader />
+          ) : (
+            <MovieList movies={movies} />
+          )}
         </Box>
         <Box>
           <MovieSummary watched={watched} />
