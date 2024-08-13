@@ -156,8 +156,11 @@ body {
 .list-watched {
   height: calc(100% - 9rem);
 }
-
+.list li:hover {
+  background: var(--color-primary);
+}
 .list li {
+  cursor: pointer;
   position: relative;
   display: grid;
   grid-template-columns: 4rem 1fr;

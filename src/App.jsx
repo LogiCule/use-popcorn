@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import {
   Box,
+  ChosenMovie,
   Error,
   Loader,
   MovieList,
@@ -37,31 +38,51 @@ const tempWatchedData = [
 export default function App() {
   const [watched, setWatched] = useState([]);
   const [query, setQuery] = useState("Deadpool");
+  const [selectedId, setSelectedId] = useState(null);
 
-  const { movies, isLoading, isError } = useMovies(query);
+  const {
+    movies,
+    isLoading: isMovieListLoading,
+    isMovieListError,
+    total,
+  } = useMovies(query);
+
   useEffect(() => {
     setWatched(tempWatchedData);
   }, []);
 
+  const handleMovieSelect = (movie) => {
+    setSelectedId(movie.imdbID);
+  };
+  const handleMovieDeSelect = () => {
+    setSelectedId(null);
+  };
+  console.log({ selectedId });
   return (
     <>
       <Navbar>
         <Search query={query} setQuery={setQuery} />
-        <SearchResults movies={movies} />
+        <SearchResults resultCount={total} />
       </Navbar>
       <main className="main">
         <Box>
-          {isError ? (
-            <Error message={isError} />
-          ) : isLoading ? (
+          {isMovieListError ? (
+            <Error message={isMovieListError} />
+          ) : isMovieListLoading ? (
             <Loader />
           ) : (
-            <MovieList movies={movies} />
+            <MovieList movies={movies} handleSelect={handleMovieSelect} />
           )}
         </Box>
         <Box>
-          <MovieSummary watched={watched} />
-          <WatchedList watched={watched} />
+          {selectedId === null ? (
+            <>
+              <MovieSummary watched={watched} />
+              <WatchedList watched={watched} />
+            </>
+          ) : (
+            <ChosenMovie handleDeselect={handleMovieDeSelect} id={selectedId} />
+          )}
         </Box>
       </main>
     </>

@@ -1,13 +1,13 @@
 import PropTypes from "prop-types";
 
-const SearchResults = ({ movies }) => {
+const SearchResults = ({ resultCount }) => {
   return (
     <p className="num-results">
-      Found <strong>{movies.length}</strong> results
+      Found <strong>{resultCount}</strong> results
     </p>
   );
 };
 
-SearchResults.propTypes = { movies: PropTypes.array };
+SearchResults.propTypes = { resultCount: PropTypes.number };
 
 export default SearchResults;
