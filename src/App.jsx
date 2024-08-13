@@ -47,17 +47,13 @@ export default function App() {
     total,
   } = useMovies(query);
 
-  useEffect(() => {
-    setWatched(tempWatchedData);
-  }, []);
-
   const handleMovieSelect = (movie) => {
     setSelectedId(movie.imdbID);
   };
   const handleMovieDeSelect = () => {
     setSelectedId(null);
   };
-  console.log({ selectedId });
+
   return (
     <>
       <Navbar>

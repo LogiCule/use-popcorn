@@ -2,15 +2,18 @@ import PropTypes from "prop-types";
 import { useMovieDetails } from "../../hooks/useMovieDetails";
 import Loader from "../Loader";
 import Error from "../Error";
+import StarRating from "../StarRating";
+// import { useState } from "react";
 
 const ChosenMovie = ({ id, handleDeselect }) => {
   const { movieDetails, isError, isLoading } = useMovieDetails({
     id,
   });
-  console.log(movieDetails);
+
+//   const [rating, setRating] = useState(0);
+
   if (movieDetails === null || isLoading) return <Loader />;
   if (isError) return <Error message={isError} />;
-
   const {
     Poster,
     Title,
@@ -43,6 +46,9 @@ const ChosenMovie = ({ id, handleDeselect }) => {
       </header>
 
       <section>
+        <div className="rating">
+          <StarRating maxRating={10} size={24} />
+        </div>
         <p>
           <em>{Plot}</em>
         </p>
