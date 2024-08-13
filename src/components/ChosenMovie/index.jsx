@@ -3,6 +3,7 @@ import { useMovieDetails } from "../../hooks/useMovieDetails";
 import Loader from "../Loader";
 import Error from "../Error";
 import StarRating from "../StarRating";
+import { useEffect } from "react";
 // import { useState } from "react";
 
 const ChosenMovie = ({ id, handleDeselect }) => {
@@ -10,7 +11,15 @@ const ChosenMovie = ({ id, handleDeselect }) => {
     id,
   });
 
-//   const [rating, setRating] = useState(0);
+  useEffect(() => {
+    if (movieDetails?.Title) {
+      document.title = movieDetails?.Title;
+    }
+
+    return () => (document.title = "usePopcorn");
+  }, [movieDetails]);
+
+  //   const [rating, setRating] = useState(0);
 
   if (movieDetails === null || isLoading) return <Loader />;
   if (isError) return <Error message={isError} />;
@@ -25,6 +34,7 @@ const ChosenMovie = ({ id, handleDeselect }) => {
     Actors,
     Director,
   } = movieDetails;
+
   return (
     <div className="details">
       <header>
