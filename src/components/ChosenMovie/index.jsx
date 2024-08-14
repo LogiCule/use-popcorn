@@ -26,11 +26,12 @@ const ChosenMovie = ({
   }, [movieDetails]);
 
   useEffect(() => {
-    document.addEventListener("keydown", function (e) {
+    function escape(e) {
       if (e.code === "Escape") handleDeselect();
-    });
+    }
+    document.addEventListener("keydown", escape);
 
-    return () => document.removeEventListener("keydown");
+    return () => document.removeEventListener("keydown", escape);
   }, [handleDeselect]);
   useEffect(() => {
     if (watched && movieDetails?.imdbID)

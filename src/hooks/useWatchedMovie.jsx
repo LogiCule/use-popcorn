@@ -3,8 +3,11 @@ import { useEffect, useState } from "react";
 export const useWatchedMovie = () => {
   const [watchedMovies, setWatchedMovies] = useState([]);
   function addMovie(movie) {
-    setWatchedMovies((prev) => [...prev, movie]);
-    UpdateLocalStorage();
+    setWatchedMovies((prev) => {
+      const list = [...prev, movie];
+      localStorage.setItem("watched", JSON.stringify(list));
+      return list;
+    });
   }
 
   function updateMovie(movie) {
@@ -18,8 +21,10 @@ export const useWatchedMovie = () => {
   }
 
   function UpdateLocalStorage() {
-    localStorage.setItem("watched", JSON.stringify(watchedMovies) || []);
+    if (watchedMovies)
+      localStorage.setItem("watched", JSON.stringify(watchedMovies));
   }
+
   useEffect(() => {
     setWatchedMovies(JSON.parse(localStorage.getItem("watched")) || []);
   }, []);
