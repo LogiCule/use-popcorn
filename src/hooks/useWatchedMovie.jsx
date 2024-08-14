@@ -9,7 +9,7 @@ export const useWatchedMovie = () => {
 
   function updateMovie(movie) {
     setWatchedMovies((prev) =>
-      prev.map((p) => {
+      prev?.map((p) => {
         if (p.imdbID == movie.imdbID) return movie;
         else return p;
       })

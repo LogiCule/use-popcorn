@@ -5,15 +5,15 @@ const MovieSummary = ({ watched }) => {
     arr.reduce((acc, cur, i, arr) => acc + cur / arr.length, 0);
 
   const avgImdbRating = average(
-    watched.map((movie) => movie.imdbRating)
+    watched?.map((movie) => movie.imdbRating)
   ).toFixed(2);
 
   const avgUserRating = average(
-    watched.map((movie) => movie.userRating)
+    watched?.map((movie) => movie.userRating)
   ).toFixed(2);
 
   const avgRuntime = average(
-    watched.map((movie) => Number(movie.Runtime.split(" ")[0]))
+    watched?.map((movie) => Number(movie.Runtime.split(" ")[0]))
   );
 
   return (

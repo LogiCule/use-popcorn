@@ -4,7 +4,7 @@ import WatchDetails from "../WatchDetails";
 const WatchedList = ({ watched }) => {
   return (
     <ul className="list">
-      {watched.map((movie) => (
+      {watched?.map((movie) => (
         <WatchDetails key={movie.imdbID} movie={movie} />
       ))}
     </ul>
