@@ -27,7 +27,7 @@ const ChosenMovie = ({
   }, [movieDetails]);
 
   useEffect(() => {
-    if (movieDetails?.imdbID)
+    if (watched && movieDetails?.imdbID)
       setIsWatched(watched.filter((w) => w.imdbID === id));
   }, [watched, movieDetails, id]);
 

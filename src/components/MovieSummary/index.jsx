@@ -17,7 +17,7 @@ const MovieSummary = ({ watched }) => {
 
   const avgRuntime = average(
     watched?.map((movie) => Number(movie.Runtime.split(" ")[0]))
-  );
+  ).toFixed(2);
 
   return (
     <div className="summary">

@@ -57,7 +57,7 @@ export default function App() {
             </>
           ) : (
             <ChosenMovie
-              watched={watched}
+              watched={null}
               handleDeselect={handleMovieDeSelect}
               id={selectedId}
               handleAdd={addMovie}
