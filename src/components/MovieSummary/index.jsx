@@ -1,6 +1,7 @@
 import PropTypes from "prop-types";
 
 const MovieSummary = ({ watched }) => {
+  if (watched === null || watched === undefined) return null;
   const average = (arr) => {
     if (arr === undefined) return 0;
     return arr.reduce((acc, cur, i, arr) => acc + cur / arr.length, 0);
