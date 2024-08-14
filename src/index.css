@@ -54,20 +54,29 @@ body {
 }
 
 .main {
-  margin-top: 2.4rem;
   height: calc(100vh - 7.2rem - 3 * 2.4rem);
   display: flex;
   gap: 2.4rem;
   justify-content: center;
+  width: 80vw;
+  margin: 0 auto;
+  margin-top: 2.4rem;
 }
 
 .box {
-  width: 45rem;
-  max-width: 45rem;
+  /* width: 45rem;
+  max-width: 45rem; */
   background-color: var(--color-background-500);
   border-radius: 0.9rem;
   overflow: auto;
   position: relative;
+}
+
+.movie-list {
+  flex: 1;
+}
+.watch-list {
+  flex: 2;
 }
 
 .loader {

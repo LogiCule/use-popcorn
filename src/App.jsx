@@ -40,7 +40,7 @@ export default function App() {
         <SearchResults resultCount={total} />
       </Navbar>
       <main className="main">
-        <Box>
+        <Box extraClass="movie-list">
           {isMovieListError ? (
             <Error message={isMovieListError} />
           ) : isMovieListLoading ? (
@@ -49,7 +49,7 @@ export default function App() {
             <MovieList movies={movies} handleSelect={handleMovieSelect} />
           )}
         </Box>
-        <Box>
+        <Box extraClass="watch-list">
           {selectedId === null ? (
             <>
               <MovieSummary watched={watched} />
@@ -57,7 +57,7 @@ export default function App() {
             </>
           ) : (
             <ChosenMovie
-              watched={null}
+              watched={watched}
               handleDeselect={handleMovieDeSelect}
               id={selectedId}
               handleAdd={addMovie}
