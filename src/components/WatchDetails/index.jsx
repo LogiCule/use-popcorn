@@ -30,7 +30,7 @@ WatchDetails.propTypes = {
     Year: PropTypes.string,
     imdbRating: PropTypes.string,
     userRating: PropTypes.number,
-    Runtime: PropTypes,
+    Runtime: PropTypes.string,
   }),
 };
 
