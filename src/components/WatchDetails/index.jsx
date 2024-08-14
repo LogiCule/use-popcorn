@@ -16,7 +16,7 @@ const WatchDetails = ({ movie }) => {
         </p>
         <p>
           <span>⏳</span>
-          <span>{movie.runtime} min</span>
+          <span>{movie.Runtime}</span>
         </p>
       </div>
     </li>
@@ -28,9 +28,9 @@ WatchDetails.propTypes = {
     Poster: PropTypes.string,
     Title: PropTypes.string,
     Year: PropTypes.string,
-    imdbRating: PropTypes.number,
+    imdbRating: PropTypes.string,
     userRating: PropTypes.number,
-    runtime: PropTypes.number,
+    Runtime: PropTypes,
   }),
 };
 

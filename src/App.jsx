@@ -12,9 +12,10 @@ import {
   WatchedList,
 } from "./components";
 import { useMovies } from "./hooks/useMovieData";
+import { useWatchedMovie } from "./hooks/useWatchedMovie";
 
 export default function App() {
-  const [watched, setWatched] = useState([]);
+  const { watchedMovies: watched, addMovie, updateMovie } = useWatchedMovie();
   const [query, setQuery] = useState("Deadpool");
   const [selectedId, setSelectedId] = useState(null);
 
@@ -55,7 +56,13 @@ export default function App() {
               <WatchedList watched={watched} />
             </>
           ) : (
-            <ChosenMovie handleDeselect={handleMovieDeSelect} id={selectedId} />
+            <ChosenMovie
+              watched={watched}
+              handleDeselect={handleMovieDeSelect}
+              id={selectedId}
+              handleAdd={addMovie}
+              handleUpdate={updateMovie}
+            />
           )}
         </Box>
       </main>
