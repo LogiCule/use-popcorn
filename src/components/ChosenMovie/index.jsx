@@ -91,23 +91,27 @@ const ChosenMovie = ({
             }}
             defaultRating={rating}
           />
-          {isWatched.length === 0 ? (
-            <button
-              className="btn-add"
-              onClick={() => handleAdd({ ...movieDetails, userRating: rating })}
-            >
-              Add
-            </button>
-          ) : (
-            <button
-              className="btn-add"
-              onClick={() =>
-                handleUpdate({ ...movieDetails, userRating: rating })
-              }
-            >
-              Update
-            </button>
-          )}
+          {rating ? (
+            isWatched.length === 0 ? (
+              <button
+                className="btn-add"
+                onClick={() =>
+                  handleAdd({ ...movieDetails, userRating: rating })
+                }
+              >
+                + Add to List
+              </button>
+            ) : (
+              <button
+                className="btn-add"
+                onClick={() =>
+                  handleUpdate({ ...movieDetails, userRating: rating })
+                }
+              >
+                Update
+              </button>
+            )
+          ) : null}
         </div>
         <p>
           <em>{Plot}</em>

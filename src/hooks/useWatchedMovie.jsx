@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
 
 export const useWatchedMovie = () => {
-  const [watchedMovies, setWatchedMovies] = useState([]);
+  const [watchedMovies, setWatchedMovies] = useState(
+    () => JSON.parse(localStorage.getItem("watched")) || []
+  );
   function addMovie(movie) {
     setWatchedMovies((prev) => {
       const list = [...prev, movie];
-      localStorage.setItem("watched", JSON.stringify(list));
       return list;
     });
   }
@@ -17,17 +18,16 @@ export const useWatchedMovie = () => {
         else return p;
       })
     );
-    UpdateLocalStorage();
   }
 
-  function UpdateLocalStorage() {
-    if (watchedMovies)
-      localStorage.setItem("watched", JSON.stringify(watchedMovies));
+  function deleteMovie(id) {
+    setWatchedMovies((prev) => prev?.filter((p) => p.imdbID !== id));
   }
 
   useEffect(() => {
-    setWatchedMovies(JSON.parse(localStorage.getItem("watched")) || []);
-  }, []);
+    if (watchedMovies)
+      localStorage.setItem("watched", JSON.stringify(watchedMovies));
+  }, [watchedMovies]);
 
-  return { watchedMovies, addMovie, updateMovie };
+  return { watchedMovies, addMovie, updateMovie, deleteMovie };
 };

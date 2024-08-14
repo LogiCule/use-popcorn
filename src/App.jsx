@@ -15,10 +15,15 @@ import { useMovies } from "./hooks/useMovieData";
 import { useWatchedMovie } from "./hooks/useWatchedMovie";
 
 export default function App() {
-  const { watchedMovies: watched, addMovie, updateMovie } = useWatchedMovie();
   const [query, setQuery] = useState("Deadpool");
   const [selectedId, setSelectedId] = useState(null);
 
+  const {
+    watchedMovies: watched,
+    addMovie,
+    updateMovie,
+    deleteMovie,
+  } = useWatchedMovie();
   const {
     movies,
     isLoading: isMovieListLoading,
@@ -53,7 +58,7 @@ export default function App() {
           {selectedId === null ? (
             <>
               <MovieSummary watched={watched} />
-              <WatchedList watched={watched} />
+              <WatchedList watched={watched} handleDelete={deleteMovie} />
             </>
           ) : (
             <ChosenMovie

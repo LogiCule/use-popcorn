@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
 
-const WatchDetails = ({ movie }) => {
+const WatchDetails = ({ movie, handleDelete }) => {
   return (
     <li>
       <img src={movie.Poster} alt={`${movie.Title} poster`} />
@@ -18,6 +18,12 @@ const WatchDetails = ({ movie }) => {
           <span>⏳</span>
           <span>{movie.Runtime}</span>
         </p>
+        <button
+          className="btn-delete"
+          onClick={() => handleDelete(movie.imdbID)}
+        >
+          X
+        </button>
       </div>
     </li>
   );
@@ -31,7 +37,9 @@ WatchDetails.propTypes = {
     imdbRating: PropTypes.string,
     userRating: PropTypes.number,
     Runtime: PropTypes.string,
+    imdbID: PropTypes.string,
   }),
+  handleDelete: PropTypes.func,
 };
 
 export default WatchDetails;
