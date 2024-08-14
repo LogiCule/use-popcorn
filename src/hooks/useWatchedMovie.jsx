@@ -18,10 +18,10 @@ export const useWatchedMovie = () => {
   }
 
   function UpdateLocalStorage() {
-    localStorage.setItem("watched", JSON.stringify(watchedMovies));
+    localStorage.setItem("watched", JSON.stringify(watchedMovies) || []);
   }
   useEffect(() => {
-    setWatchedMovies(JSON.parse(localStorage.getItem("watched")));
+    setWatchedMovies(JSON.parse(localStorage.getItem("watched") || []));
   }, []);
 
   return { watchedMovies, addMovie, updateMovie };
