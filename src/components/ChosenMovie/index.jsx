@@ -22,10 +22,16 @@ const ChosenMovie = ({
     if (movieDetails?.Title) {
       document.title = movieDetails?.Title;
     }
-
     return () => (document.title = "usePopcorn");
   }, [movieDetails]);
 
+  useEffect(() => {
+    document.addEventListener("keydown", function (e) {
+      if (e.code === "Escape") handleDeselect();
+    });
+
+    return () => document.removeEventListener("keydown");
+  }, [handleDeselect]);
   useEffect(() => {
     if (watched && movieDetails?.imdbID)
       setIsWatched(watched.filter((w) => w.imdbID === id));
