@@ -20,22 +20,22 @@ const MovieSummary = ({ watched }) => {
   ).toFixed(2);
 
   return (
-    <div className="summary">
-      <h2>Movies you watched</h2>
-      <div>
-        <p>
+    <div className="bg-primary text-primary-foreground p-6 rounded-xl shadow-lg mb-4">
+      <h2 className="uppercase text-sm font-bold mb-4 tracking-wider">Movies you watched</h2>
+      <div className="flex items-center justify-between text-base font-semibold">
+        <p className="flex items-center gap-2">
           <span>#️⃣</span>
           <span>{watched.length || 0} movies</span>
         </p>
-        <p>
+        <p className="flex items-center gap-2">
           <span>⭐️</span>
           <span>{avgImdbRating}</span>
         </p>
-        <p>
+        <p className="flex items-center gap-2">
           <span>🌟</span>
           <span>{avgUserRating}</span>
         </p>
-        <p>
+        <p className="flex items-center gap-2">
           <span>⏳</span>
           <span>{avgRuntime} min</span>
         </p>

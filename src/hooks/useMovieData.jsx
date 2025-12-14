@@ -16,20 +16,42 @@ export const useMovies = (query) => {
     async function getMovies() {
       try {
         setIsLoading(true);
+        setIsError("");
         const res = await fetch(`${baseURL}&s=${searchTerm}`);
         if (!res.ok)
           throw new Error("Something went wrong with fetching movies");
         const data = await res.json();
-        setIsLoading(false);
-        setIsError(false);
-        if (data.Search) setMovies(data.Search);
-        if (data.totalResults) setTotal(Number(data.totalResults));
+
+        if (data.Response === "False") {
+           // If movie is not found, clear list but don't treat as a critical "error" if we just want empty list
+           // However, OMDb usually sends "Movie not found!"
+           setMovies([]); 
+           setTotal(0);
+           throw new Error(data.Error);
+        }
+
+        setMovies(data.Search);
+        setTotal(Number(data.totalResults));
+        setIsError(""); 
       } catch (err) {
-        setIsError(err.message);
-        console.error({ err: err.message });
+        if(err.message !== "Movie not found!"){
+             setIsError(err.message);
+        } else {
+             setIsError(""); // Don't show error box for "not found", just show empty list
+        }
+        setMovies([]); // Ensure movies are cleared on error
+      } finally {
+        setIsLoading(false);
       }
     }
-    if (searchTerm !== "" && searchTerm.length > 3) getMovies();
+
+    if (searchTerm === "" || searchTerm.length < 3) {
+      setMovies([]);
+      setIsError("");
+      return;
+    }
+    
+    getMovies();
   }, [baseURL, searchTerm]);
 
   return { movies, isLoading, isError, total };

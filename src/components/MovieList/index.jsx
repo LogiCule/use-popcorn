@@ -3,7 +3,7 @@ import MovieDetails from "../MovieDetails";
 
 const MovieList = ({ movies, handleSelect }) => {
   return (
-    <ul className="list">
+    <ul className="divide-y divide-border">
       {movies?.map((movie) => (
         <MovieDetails
           key={movie.imdbID}

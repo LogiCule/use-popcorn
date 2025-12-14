@@ -3,7 +3,7 @@ import WatchDetails from "../WatchDetails";
 
 const WatchedList = ({ watched, handleDelete }) => {
   return (
-    <ul className="list">
+    <ul className="divide-y divide-border">
       {watched?.map((movie) => (
         <WatchDetails
           key={movie.imdbID}

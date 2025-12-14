@@ -61,27 +61,33 @@ const ChosenMovie = ({
   } = movieDetails;
 
   return (
-    <div className="details">
-      <header>
-        <button className="btn-back" onClick={handleDeselect}>
+    <div className="leading-snug text-sm">
+      <header className="flex">
+        <button className="absolute top-2 left-2 h-8 w-8 rounded-full bg-background text-foreground shadow-md flex items-center justify-center font-bold z-10 hover:bg-muted" onClick={handleDeselect}>
           &larr;
         </button>
-        <img src={Poster} />
-        <div className="details-overview">
-          <h2>{Title}</h2>
-          <p>
+        {Poster === "N/A" ? (
+          <div className="w-1/3 bg-muted flex items-center justify-center min-h-[15rem] text-4xl">
+            <span>🎥</span>
+          </div>
+        ) : (
+          <img src={Poster} alt={`Poster of ${Title}`} className="w-1/3 object-cover" />
+        )}
+        <div className="w-full p-6 bg-card flex flex-col gap-3">
+          <h2 className="text-2xl font-bold mb-1 leading-tight">{Title}</h2>
+          <p className="flex items-center gap-2 text-muted-foreground">
             {Released} &bull; {Runtime}
           </p>
           <p>{Genre}</p>
-          <p>
+          <p className="flex items-center gap-2">
             <span>⭐</span>
             {imdbRating} IMDb Rating
           </p>
         </div>
       </header>
 
-      <section>
-        <div className="rating">
+      <section className="p-10 flex flex-col gap-4">
+        <div className="bg-secondary/50 rounded-xl p-6 mb-2 font-semibold flex flex-col gap-6">
           <StarRating
             key={id}
             maxRating={10}
@@ -94,7 +100,7 @@ const ChosenMovie = ({
           {rating ? (
             isWatched.length === 0 ? (
               <button
-                className="btn-add"
+                className="bg-primary text-primary-foreground border-none rounded-full text-sm p-3 font-bold hover:bg-primary/90 transition-colors w-full"
                 onClick={() =>
                   handleAdd({ ...movieDetails, userRating: rating })
                 }
@@ -103,7 +109,7 @@ const ChosenMovie = ({
               </button>
             ) : (
               <button
-                className="btn-add"
+                className="bg-primary text-primary-foreground border-none rounded-full text-sm p-3 font-bold hover:bg-primary/90 transition-colors w-full"
                 onClick={() =>
                   handleUpdate({ ...movieDetails, userRating: rating })
                 }
@@ -114,7 +120,7 @@ const ChosenMovie = ({
           ) : null}
         </div>
         <p>
-          <em>{Plot}</em>
+          <em className="text-muted-foreground">{Plot}</em>
         </p>
         <p>Starring {Actors}</p>
         <p>Directed by {Director}</p>
