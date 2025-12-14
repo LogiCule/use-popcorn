@@ -46,6 +46,12 @@ const ChosenMovie = ({
     }
   }, [id, isWatched]);
 
+  // Reset image error when id changes
+  const [imageError, setImageError] = useState(false);
+  useEffect(() => {
+    setImageError(false);
+  }, [id]);
+
   if (movieDetails === null || isLoading) return <Loader />;
   if (isError) return <Error message={isError} />;
   const {
@@ -60,18 +66,25 @@ const ChosenMovie = ({
     Director,
   } = movieDetails;
 
+  const hasPoster = Poster && Poster !== "N/A";
+
   return (
     <div className="leading-snug text-sm">
       <header className="flex">
         <button className="absolute top-2 left-2 h-8 w-8 rounded-full bg-background text-foreground shadow-md flex items-center justify-center font-bold z-10 hover:bg-muted" onClick={handleDeselect}>
           &larr;
         </button>
-        {Poster === "N/A" ? (
+        {!hasPoster || imageError ? (
           <div className="w-1/3 bg-muted flex items-center justify-center min-h-[15rem] text-4xl">
             <span>🎥</span>
           </div>
         ) : (
-          <img src={Poster} alt={`Poster of ${Title}`} className="w-1/3 object-cover" />
+          <img 
+            src={Poster} 
+            alt={`Poster of ${Title}`} 
+            className="w-1/3 object-cover"
+            onError={() => setImageError(true)} 
+          />
         )}
         <div className="w-full p-6 bg-card flex flex-col gap-3">
           <h2 className="text-2xl font-bold mb-1 leading-tight">{Title}</h2>

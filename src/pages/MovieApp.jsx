@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useEffect, useState } from "react";
 import {
   Box,
   ChosenMovie,
@@ -31,7 +31,36 @@ export default function MovieApp() {
     isLoading: isMovieListLoading,
     isMovieListError,
     total,
+    setPage,
   } = useMovies(query);
+
+  const lastElementRef = useRef(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const target = entries[0];
+        // Trigger if intersecting AND not currently loading AND we have more to load
+        if (target.isIntersecting && !isMovieListLoading && movies.length < total) {
+          setPage((prevPage) => prevPage + 1);
+        }
+      },
+      { 
+        threshold: 0, 
+        rootMargin: "200px" // Load 200px before reaching the bottom
+      }
+    );
+
+    if (lastElementRef.current) {
+      observer.observe(lastElementRef.current);
+    }
+
+    return () => {
+      if (lastElementRef.current) {
+        observer.unobserve(lastElementRef.current);
+      }
+    };
+  }, [isMovieListLoading, movies, total, setPage]);
 
   const handleMovieSelect = (movie) => {
     setSelectedId(movie.imdbID);
@@ -76,7 +105,7 @@ export default function MovieApp() {
         >
           {isMovieListError ? (
             <Error message={isMovieListError} />
-          ) : isMovieListLoading ? (
+          ) : isMovieListLoading && movies.length === 0 ? (
             <Loader />
           ) : movies.length > 0 ? (
             <>
@@ -84,6 +113,16 @@ export default function MovieApp() {
                 <SearchResults resultCount={total} />
               </div>
               <MovieList movies={movies} handleSelect={handleMovieSelect} />
+              
+              {/* Sentinel for infinite scroll */}
+              <div ref={lastElementRef} className="h-4 w-full" />
+              
+              {/* Show small loader at bottom when fetching more pages */}
+              {isMovieListLoading && movies.length > 0 && (
+                <div className="p-4 flex justify-center">
+                  <Loader />
+                </div>
+              )}
             </>
           ) : (
             <EmptyMovieState

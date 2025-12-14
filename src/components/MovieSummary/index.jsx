@@ -16,7 +16,9 @@ const MovieSummary = ({ watched }) => {
   ).toFixed(2);
 
   const avgRuntime = average(
-    watched?.map((movie) => Number(movie.Runtime.split(" ")[0]))
+    watched
+      ?.map((movie) => Number(movie.Runtime.split(" ")[0]))
+      .filter((runtime) => !isNaN(runtime) && runtime > 0)
   ).toFixed(2);
 
   return (

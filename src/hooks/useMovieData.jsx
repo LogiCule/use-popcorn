@@ -6,42 +6,75 @@ export const useMovies = (query) => {
   const [total, setTotal] = useState(0);
   const [isError, setIsError] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [page, setPage] = useState(1);
   const baseURL = `http://www.omdbapi.com/?apikey=${
     import.meta.env.VITE_API_KEY
   }`;
 
   const searchTerm = useDebounce(query, 1000);
 
+  // Reset page and movies when search term changes
   useEffect(() => {
+    setPage(1);
+    setMovies([]);
+  }, [searchTerm]);
+
+  useEffect(() => {
+    const controller = new AbortController();
+
     async function getMovies() {
+      // If we are resetting (page 1 is pending) or empty, don't fetch wrong page
+      // But we handled race condition via AbortController so it's fine.
+      
       try {
         setIsLoading(true);
         setIsError("");
-        const res = await fetch(`${baseURL}&s=${searchTerm}`);
+        
+        const res = await fetch(`${baseURL}&s=${searchTerm}&page=${page}`, {
+          signal: controller.signal,
+        });
+
         if (!res.ok)
           throw new Error("Something went wrong with fetching movies");
+        
         const data = await res.json();
 
         if (data.Response === "False") {
-           // If movie is not found, clear list but don't treat as a critical "error" if we just want empty list
-           // However, OMDb usually sends "Movie not found!"
-           setMovies([]); 
-           setTotal(0);
-           throw new Error(data.Error);
+           // Only error if page 1. If page > 1 and not found, maybe just end of list?
+           // OMDb returns "Movie not found!" for out of range pages too? 
+           // Usually it returns "Movie not found!" if page is invalid.
+           if (page === 1) {
+             setMovies([]);
+             setTotal(0);
+             throw new Error(data.Error);
+           } else {
+             // End of list reached potentially, do nothing or stop loading
+             return; 
+           }
         }
 
-        setMovies(data.Search);
         setTotal(Number(data.totalResults));
-        setIsError(""); 
-      } catch (err) {
-        if(err.message !== "Movie not found!"){
-             setIsError(err.message);
+        
+        if (page === 1) {
+          setMovies(data.Search);
         } else {
-             setIsError(""); // Don't show error box for "not found", just show empty list
+          setMovies((prev) => [...prev, ...data.Search]);
         }
-        setMovies([]); // Ensure movies are cleared on error
+        
+        setIsError("");
+      } catch (err) {
+        if (err.name !== "AbortError") {
+          if (err.message !== "Movie not found!") {
+             setIsError(err.message);
+          } else if (page === 1) {
+             setIsError("");
+          }
+          if (page === 1) setMovies([]);
+        }
       } finally {
-        setIsLoading(false);
+        if (!controller.signal.aborted) {
+          setIsLoading(false);
+        }
       }
     }
 
@@ -50,9 +83,13 @@ export const useMovies = (query) => {
       setIsError("");
       return;
     }
-    
-    getMovies();
-  }, [baseURL, searchTerm]);
 
-  return { movies, isLoading, isError, total };
+    getMovies();
+
+    return () => {
+      controller.abort();
+    };
+  }, [baseURL, searchTerm, page]);
+
+  return { movies, isLoading, isError, total, setPage, page };
 };
