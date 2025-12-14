@@ -18,6 +18,7 @@ import { useWatchedMovie } from "../hooks/useWatchedMovie";
 export default function MovieApp() {
   const [query, setQuery] = useState("");
   const [selectedId, setSelectedId] = useState(null);
+  const [activeTab, setActiveTab] = useState("search");
 
   const {
     watchedMovies: watched,
@@ -34,6 +35,7 @@ export default function MovieApp() {
 
   const handleMovieSelect = (movie) => {
     setSelectedId(movie.imdbID);
+    setActiveTab("watched");
   };
   const handleMovieDeSelect = () => {
     setSelectedId(null);
@@ -44,8 +46,34 @@ export default function MovieApp() {
       <Navbar>
         <Search query={query} setQuery={setQuery} />
       </Navbar>
-      <main className="flex flex-col md:flex-row gap-4 justify-center h-auto md:h-[calc(100vh-9rem)] mt-4 w-full px-4 max-w-7xl mx-auto pb-4">
-        <Box className="flex-1 h-[500px] md:h-full overflow-y-auto" collapsible={false}>
+      <div className="md:hidden flex px-4 gap-2 mt-4">
+        <button
+          onClick={() => setActiveTab("search")}
+          className={`flex-1 py-2 rounded-lg text-sm font-medium transition-colors ${
+            activeTab === "search"
+              ? "bg-primary text-primary-foreground"
+              : "bg-primary/10 text-primary hover:bg-primary/20"
+          }`}
+        >
+          Search Results
+        </button>
+        <button
+          onClick={() => setActiveTab("watched")}
+          className={`flex-1 py-2 rounded-lg text-sm font-medium transition-colors ${
+            activeTab === "watched"
+              ? "bg-primary text-primary-foreground"
+              : "bg-primary/10 text-primary hover:bg-primary/20"
+          }`}
+        >
+          {selectedId ? "Movie Details" : "Watched List"}
+        </button>
+      </div>
+
+      <main className="flex flex-col md:flex-row gap-4 justify-center h-[calc(100vh-14rem)] md:h-[calc(100vh-9rem)] mt-4 w-full px-4 max-w-7xl mx-auto pb-4">
+        <Box 
+          className={`flex-1 h-full md:h-full overflow-y-auto ${activeTab === "search" ? "block" : "hidden md:block"}`} 
+          collapsible={false}
+        >
           {isMovieListError ? (
             <Error message={isMovieListError} />
           ) : isMovieListLoading ? (
@@ -69,7 +97,10 @@ export default function MovieApp() {
             />
           )}
         </Box>
-        <Box className="flex-1 h-auto min-h-[500px] md:h-full overflow-y-auto" collapsible={false}>
+        <Box 
+          className={`flex-1 h-full md:h-full overflow-y-auto ${activeTab === "watched" ? "block" : "hidden md:block"}`} 
+          collapsible={false}
+        >
           {selectedId === null ? (
             <>
               <MovieSummary watched={watched} />

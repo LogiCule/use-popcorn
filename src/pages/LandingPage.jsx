@@ -35,21 +35,21 @@ export default function LandingPage() {
         </Button>
       </div>
 
-      <div className="flex flex-wrap justify-center gap-6 p-10 pb-20">
+      <div className="flex flex-wrap justify-center gap-4 md:gap-6 p-6 md:p-10 pb-20">
         <FeatureCard 
-          icon={<Search className="w-10 h-10 text-primary mb-4" />} 
+          icon={<Search className="w-8 h-8 md:w-10 md:h-10 text-primary mb-3 md:mb-4" />} 
           title="Search" 
-          desc="Find any movie instantly." 
+          desc="Find movies." 
         />
         <FeatureCard 
-          icon={<Star className="w-10 h-10 text-yellow-400 mb-4" />} 
+          icon={<Star className="w-8 h-8 md:w-10 md:h-10 text-yellow-400 mb-3 md:mb-4" />} 
           title="Rate" 
-          desc="Give your verdict." 
+          desc="Rate movies." 
         />
         <FeatureCard 
-          icon={<List className="w-10 h-10 text-green-400 mb-4" />} 
+          icon={<List className="w-8 h-8 md:w-10 md:h-10 text-green-400 mb-3 md:mb-4" />} 
           title="Track" 
-          desc="Keep your watchlist organized." 
+          desc="Organize lists." 
         />
       </div>
     </div>
@@ -58,11 +58,11 @@ export default function LandingPage() {
 
 function FeatureCard({ icon, title, desc }) {
   return (
-    <Card className="w-64 border-white/10 bg-white/5 backdrop-blur-sm hover:bg-white/10 transition-colors border-none">
-      <CardContent className="flex flex-col items-center pt-6 text-center">
+    <Card className="w-36 md:w-64 border-white/10 bg-white/5 backdrop-blur-sm hover:bg-white/10 transition-colors border-none">
+      <CardContent className="flex flex-col items-center pt-4 md:pt-6 text-center px-2 md:px-6">
         {icon}
-        <h3 className="text-xl font-semibold mb-2 text-primary-foreground">{title}</h3>
-        <p className="text-muted-foreground">{desc}</p>
+        <h3 className="text-lg md:text-xl font-semibold mb-1 md:mb-2 text-primary-foreground">{title}</h3>
+        <p className="text-xs md:text-base text-muted-foreground">{desc}</p>
       </CardContent>
     </Card>
   )
