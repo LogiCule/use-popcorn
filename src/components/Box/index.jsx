@@ -6,7 +6,7 @@ const Box = ({ children, className = "", collapsible = true }) => {
   const [isOpen, setIsOpen] = useState(true);
 
   return (
-    <div className={`bg-card text-card-foreground rounded-xl border shadow-sm relative overflow-hidden ${className}`}>
+    <div className={`bg-white/5 backdrop-blur-sm text-card-foreground rounded-xl border border-white/10 shadow-sm relative overflow-hidden ${className}`}>
       {collapsible && (
         <Button
           variant="ghost"

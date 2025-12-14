@@ -40,19 +40,19 @@ export default function MovieApp() {
   };
 
   return (
-    <>
+    <div className="min-h-screen bg-[radial-gradient(circle_at_top_left,_#3b2a5f_0%,_var(--background)_100%)] text-foreground flex flex-col">
       <Navbar>
         <Search query={query} setQuery={setQuery} />
       </Navbar>
-      <main className="flex gap-4 justify-center h-[calc(100vh-9rem)] mt-4 w-full px-4 max-w-7xl mx-auto">
-        <Box className="flex-1 overflow-y-auto" collapsible={false}>
+      <main className="flex flex-col md:flex-row gap-4 justify-center h-auto md:h-[calc(100vh-9rem)] mt-4 w-full px-4 max-w-7xl mx-auto pb-4">
+        <Box className="flex-1 h-[500px] md:h-full overflow-y-auto" collapsible={false}>
           {isMovieListError ? (
             <Error message={isMovieListError} />
           ) : isMovieListLoading ? (
             <Loader />
           ) : movies.length > 0 ? (
             <>
-              <div className="px-4 py-2 border-b border-border bg-card sticky top-0 z-10">
+              <div className="px-4 py-2 border-b border-white/10 bg-primary/20 backdrop-blur-md sticky top-0 z-10">
                 <SearchResults resultCount={total} />
               </div>
               <MovieList movies={movies} handleSelect={handleMovieSelect} />
@@ -69,7 +69,7 @@ export default function MovieApp() {
             />
           )}
         </Box>
-        <Box className="flex-1 overflow-y-auto">
+        <Box className="flex-1 h-auto min-h-[500px] md:h-full overflow-y-auto" collapsible={false}>
           {selectedId === null ? (
             <>
               <MovieSummary watched={watched} />
@@ -86,6 +86,6 @@ export default function MovieApp() {
           )}
         </Box>
       </main>
-    </>
+    </div>
   );
 }

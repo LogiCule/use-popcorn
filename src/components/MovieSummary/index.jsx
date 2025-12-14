@@ -20,7 +20,7 @@ const MovieSummary = ({ watched }) => {
   ).toFixed(2);
 
   return (
-    <div className="bg-primary text-primary-foreground p-6 rounded-xl shadow-lg mb-4">
+    <div className="bg-primary/20 backdrop-blur-md border-b border-white/10 p-6 shadow-sm sticky top-0 z-10 text-primary-foreground">
       <h2 className="uppercase text-sm font-bold mb-4 tracking-wider">Movies you watched</h2>
       <div className="flex items-center justify-between text-base font-semibold">
         <p className="flex items-center gap-2">
